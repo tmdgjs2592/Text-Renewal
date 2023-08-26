@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Historical Document Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.2.2/dist/tesseract.min.js"></script> 
+</head>
+<body>
+    <header>
+        <h1>Historical Document Analysis</h1>
+    </header>
+    <main>
+        <section class="document-section" id="uploadedDocument">
+            <!-- Uploaded document will appear here -->
+        </section>
+        <section class="translated-text-section" id="translatedText">
+            <!-- Translated text link will appear here -->
+        </section>
+        <section class="upload-section">
+            <h2>Upload a Document</h2>
+            <label for="fileInput" class="file-label">Choose a file
+                <input type="file" id="fileInput" accept=".pdf, .doc, .docx" style="display:none;" onchange="displayDocument(this)" />
+            </label>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Historical Document Analysis</p>
+    </footer>
+    <script>
+        async function displayDocument(input) {
+            const uploadedDocumentSection = document.getElementById("uploadedDocument");
+            const translatedTextSection = document.getElementById("translatedText");
+
+            uploadedDocumentSection.innerHTML = "";
+            translatedTextSection.innerHTML = "";
+
+            if (input.files.length > 0) {
+                const uploadedFile = input.files[0];
+                const fileName = uploadedFile.name;
+
+                const documentContainer = document.createElement("div");
+                documentContainer.classList.add("document");
+                const documentName = document.createElement("h2");
+                documentName.textContent = fileName;
+                const documentLink = document.createElement("a");
+                documentLink.href = URL.createObjectURL(uploadedFile);
+                documentLink.target = "_blank";
+                documentLink.textContent = "Open Original Document";
+
+                documentContainer.appendChild(documentName);
+                documentContainer.appendChild(documentLink);
+                uploadedDocumentSection.appendChild(documentContainer);
+
+                // Perform OCR using Tesseract.js
+                const worker = Tesseract.createWorker();
+                await worker.load();
+                await worker.loadLanguage('eng');
+                await worker.initialize('eng');
+                const { data: { text } } = await worker.recognize(uploadedFile);
+                await worker.terminate();
+
+                // Create and download a TXT file with the extracted text
+                const translatedFile = new Blob([text], { type: 'text/plain' });
+                const translatedFileLink = document.createElement("a");
+                translatedFileLink.href = URL.createObjectURL(translatedFile);
+                translatedFileLink.download = `${fileName.replace(/\..+$/, "")}_translated.txt`;
+                translatedFileLink.textContent = "Download Translated Text";
+
+                const translatedLinkDiv = document.createElement("div");
+                translatedLinkDiv.appendChild(translatedFileLink);
+
+                translatedTextSection.appendChild(translatedLinkDiv); // Add the translated text link
+            }
+        }
+    </script>
+</body>
+</html>
