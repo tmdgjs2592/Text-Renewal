@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Historical Document Analysis</title>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.2.2/dist/tesseract.min.js"></script> 
 </head>
 <body>
     <header>
@@ -13,16 +12,16 @@
     </header>
     <main>
         <section class="document-section" id="uploadedDocument">
-            <!-- Uploaded document will appear here -->
-        </section>
-        <section class="translated-text-section" id="translatedText">
-            <!-- Translated text link will appear here -->
+            <!-- Uploaded document and translated text links will appear here -->
         </section>
         <section class="upload-section">
             <h2>Upload a Document</h2>
             <label for="fileInput" class="file-label">Choose a file
                 <input type="file" id="fileInput" accept=".pdf, .doc, .docx" style="display:none;" onchange="displayDocument(this)" />
             </label>
+        </section>
+        <section class="text-download">
+            <!-- Extracted text link will appear here -->
         </section>
     </main>
     <footer>
@@ -31,10 +30,11 @@
     <script>
         async function displayDocument(input) {
             const uploadedDocumentSection = document.getElementById("uploadedDocument");
-            const translatedTextSection = document.getElementById("translatedText");
+            const textDownloadSection = document.querySelector(".text-download");
 
+            // Clear existing content
             uploadedDocumentSection.innerHTML = "";
-            translatedTextSection.innerHTML = "";
+            textDownloadSection.innerHTML = "";
 
             if (input.files.length > 0) {
                 const uploadedFile = input.files[0];
@@ -53,25 +53,20 @@
                 documentContainer.appendChild(documentLink);
                 uploadedDocumentSection.appendChild(documentContainer);
 
-                // Perform OCR using Tesseract.js
-                const worker = Tesseract.createWorker();
-                await worker.load();
-                await worker.loadLanguage('eng');
-                await worker.initialize('eng');
-                const { data: { text } } = await worker.recognize(uploadedFile);
-                await worker.terminate();
+                // Call the Python backend to perform OCR
+                const formData = new FormData();
+                formData.append('uploadedFile', uploadedFile);
+                const response = await fetch('ocr', {
+                    method: 'POST',
+                    body: formData
+                });
 
-                // Create and download a TXT file with the extracted text
-                const translatedFile = new Blob([text], { type: 'text/plain' });
-                const translatedFileLink = document.createElement("a");
-                translatedFileLink.href = URL.createObjectURL(translatedFile);
-                translatedFileLink.download = `${fileName.replace(/\..+$/, "")}_translated.txt`;
-                translatedFileLink.textContent = "Download Translated Text";
-
-                const translatedLinkDiv = document.createElement("div");
-                translatedLinkDiv.appendChild(translatedFileLink);
-
-                translatedTextSection.appendChild(translatedLinkDiv); // Add the translated text link
+                if (response.ok) {
+                    const extractedTextLink = await response.text();
+                    textDownloadSection.innerHTML = extractedTextLink;
+                } else {
+                    console.error('Failed to perform OCR');
+                }
             }
         }
     </script>
