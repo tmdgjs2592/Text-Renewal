@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <form id="registration-form">
+            <input type="text" id="reg-username" placeholder="Username" required>
+            <input type="password" id="reg-password" placeholder="Password" required>
+            <div>
+                <button type="submit">Register</button>
+                <button type = "click" class = "hidden" id = "si-button"> Sign in </button>
+            </div>
+            
+        </form>
+        
+        <div id="registration-message" class="hidden"></div>
+        
+    </div>
+    <script src="reg_script.js"></script>
+</body>
+</html>
