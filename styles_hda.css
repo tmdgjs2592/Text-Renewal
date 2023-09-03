@@ -1,14 +1,14 @@
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure the body takes at least the viewport height */
+    min-height: 100vh;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
+    background-color: #F5EFE1; /* Light brown background */
 }
 
 header {
-    background-color: #333;
+    background-color: #634E32; /* Brown background */
     color: #fff;
     text-align: center;
     padding: 1rem;
@@ -20,24 +20,24 @@ h1 {
 }
 
 main {
-    flex: 1; /* Allow main content to expand and fill the remaining space */
+    flex: 1;
     padding: 2rem;
+    background-color: #F5EFE1; /* Light brown background */
 }
 
 .document-section {
-    background-color: #fff;
+    background-color: #D4B996; /* Light brown background */
     padding: 1rem;
-    border: 1px solid #ddd;
+    border: 1px solid #C0A084; /* Brownish border */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .document {
-    background-color: #f8f8f8;
+    background-color: #F0E6D1; /* Beige background */
     padding: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid #D4B996; /* Light brown border */
     border-radius: 4px;
 }
-
 
 p {
     font-size: 1rem;
@@ -45,11 +45,11 @@ p {
 }
 
 footer {
-    background-color: #333;
+    background-color: #634E32; /* Brown background */
     color: #fff;
     text-align: center;
     padding: 0.5rem;
-    margin-top: auto; 
+    margin-top: auto;
 }
 
 .upload-section {
@@ -65,7 +65,7 @@ h2 {
 .file-label {
     display: inline-block;
     padding: 0.5rem 1rem;
-    background-color: #333;
+    background-color: #634E32; /* Brown background */
     color: #fff;
     cursor: pointer;
     border-radius: 4px;
@@ -73,12 +73,56 @@ h2 {
 }
 
 .file-label:hover {
-    background-color: #444;
+    background-color: #543C28; /* Darker brown on hover */
 }
 
 .translated-text-section {
-    background-color: #fff;
+    background-color: #D4B996; /* Light brown background */
     padding: 1rem;
-    border: 1px solid #ddd;
+    border: 1px solid #C0A084; /* Brownish border */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    background-color: #634E32; /* Brown background */
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    color: #F0E6D1; /* Beige on hover */
+}
+
+/* Additional CSS for centering and styling the sections */
+section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #F0E6D1; /* Beige background */
+    border: 1px solid #D4B996; /* Light brown border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+section1 {
+    text-align: center;
+}
+
+h1, h2, p {
+    font-family: 'Libre Baskerville', serif;
 }
