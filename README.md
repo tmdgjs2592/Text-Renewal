@@ -2,7 +2,7 @@
 1. http-server directory
 2. node server.js
 3. copy one of the given available address and open server.js file
-4. where it says 'app.use(cors({origin: "http://192.168.1.17:8080"}));' change the address in quotation mark.
+4. where it says 'app.use(cors({origin: "http://..."}));' change the address in quotation mark.
 5. go on the browser and search 'your address/signin.html'
 6. 
 USE hda_database;
